@@ -2,7 +2,7 @@ pipeline{
   agent { label "windows"}
 
   stages{
-    stage('Hello){
+    stage('Hello'){
           steps{
             echo "Hello"
           }

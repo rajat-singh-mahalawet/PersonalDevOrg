@@ -14,7 +14,7 @@ pipeline{
     SF_USERNAME               = "${env.HUB_ORG_DH}"
     PACKAGE_VERSION           = ''
 
-    //server_key_file = credentials("${env.JWT_CRED_ID_DH}")
+    server_key_file = credentials("${env.JWT_CRED_ID_DH}")
   }
 
   stages{                                                                               
@@ -27,10 +27,10 @@ pipeline{
 
     stage('Authenticate with Salesforce'){
       steps{
-        withCredentials([file(credentialsId: ${SERVER_KEY_CREDENTALS_ID}, variable: 'server_key_file')]) {
+        //withCredentials([file(credentialsId: ${SERVER_KEY_CREDENTALS_ID}, variable: 'server_key_file')]) {
           bat script: "force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${server_key_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
           echo 'Auth OK'
-        }
+        
   
       }
     }

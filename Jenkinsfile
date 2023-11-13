@@ -28,7 +28,7 @@ pipeline{
     stage('Authenticate with Salesforce'){
       steps{
         sh '''
-          force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${server_key_file} --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}" 
+          force:auth:jwt:grant --clientid "${SF_CONSUMER_KEY}" --username "${SF_USERNAME}" --jwtkeyfile "${server_key_file}" --setdefaultdevhubusername --instanceurl "${SF_INSTANCE_URL}" 
         '''
       }
 

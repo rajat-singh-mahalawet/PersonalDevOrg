@@ -29,9 +29,9 @@ pipeline{
       steps{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'server_key_file')]) {
               input {
-                message "Should we continue?"
-                ok "Yes, we should."
-                submitter "alice,bob"
+                message 'Should we continue?'
+                ok 'Yes, we should.'
+                submitter 'alice,bob'
                 parameters {
                     string name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?'
                 }

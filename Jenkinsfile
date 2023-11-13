@@ -14,7 +14,7 @@ pipeline{
     SF_USERNAME               = ''
     PACKAGE_VERSION           = ''
 
-    server_key_file = credentials("${SERVER_KEY_CREDENTALS_ID}")
+    server_key_file = credentials("${env.JWT_CRED_ID_DH}")
   }
 
   stages{                                                                               

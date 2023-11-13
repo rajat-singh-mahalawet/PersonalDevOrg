@@ -13,7 +13,6 @@ pipeline{
     SF_INSTANCE_URL           = "${env.SFDC_HOST_DH}"
     SF_USERNAME               = "${env.HUB_ORG_DH}"
     PACKAGE_VERSION           = ''
-    toolbelt                  = tool 'toolbelt'
 
     //server_key_file = credentials("${env.JWT_CRED_ID_DH}")
   }

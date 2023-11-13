@@ -14,7 +14,7 @@ pipeline{
     SF_USERNAME               = ''
     PACKAGE_VERSION           = ''
 
-    server_key_file = credentials(${SERVER_KEY_CREDENTALS_ID})
+    server_key_file = credentials("${SERVER_KEY_CREDENTALS_ID}")
   }
 
   stages{                                                                               
@@ -26,8 +26,8 @@ pipeline{
     }
 
     stage('Authenticate with Salesforce'){
-      step{
-        echo ${server_key_file}
+      steps{
+        echo "${server_key_file}"
       }
 
     }

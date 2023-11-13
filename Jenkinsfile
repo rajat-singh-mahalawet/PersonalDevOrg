@@ -33,7 +33,7 @@ pipeline{
                 ok "Yes, we should."
                 submitter "alice,bob"
                 parameters {
-                    string name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?
+                    string name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?'
                 }
             }
           bat script: "force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${server_key_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"

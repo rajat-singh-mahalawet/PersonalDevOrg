@@ -2,13 +2,14 @@ pipeline{
     agent any
     options {
         // Timeout counter starts AFTER agent is allocated
-        timeout(time: 1, unit: 'SECONDS')
+        timeout(time: 15, unit: 'SECONDS')
     }
 
   stages{
-    stage('Hello'){
+    stage('Checkout'){
           steps{
-            echo "Hello World2"
+            checkout scm
+            echo 'checkout'
           }
     }
   }

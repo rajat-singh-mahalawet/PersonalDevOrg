@@ -29,7 +29,7 @@ pipeline{
       steps{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'server_key_file')]) {
               input {
-                message 'Should we continue?'
+                message: 'Should we continue?'
             }
           bat script: "force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${server_key_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
           echo 'Auth OK'

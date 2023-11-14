@@ -1,44 +1,49 @@
-pipeline{
-    agent any
-    options {
-        // Timeout counter starts AFTER agent is allocated
-        timeout(time: 15, unit: 'SECONDS')
+#!groovy
+import groovy.json.JsonSlurperClassic
+node {
+
+    def BUILD_NUMBER=env.BUILD_NUMBER
+    def RUN_ARTIFACT_DIR="tests/${BUILD_NUMBER}"
+    def SFDC_USERNAME
+
+    def HUB_ORG=env.HUB_ORG_DH
+    def SFDC_HOST = env.SFDC_HOST_DH
+    def JWT_KEY_CRED_ID = env.JWT_CRED_ID_DH
+    def CONNECTED_APP_CONSUMER_KEY=env.CONNECTED_APP_CONSUMER_KEY_DH
+
+    println 'KEY IS' 
+    println JWT_KEY_CRED_ID
+    println HUB_ORG
+    println SFDC_HOST
+    println CONNECTED_APP_CONSUMER_KEY
+    def toolbelt = tool 'toolbelt'
+
+    stage('checkout source') {
+        // when running in multi-branch job, one must issue this command
+        checkout scm
     }
 
-  environment{
-    SF_CONSUMER_KEY           = "${env.CONNECTED_APP_CONSUMER_KEY_DH}"
-    SERVER_KEY_CREDENTALS_ID  = "${env.JWT_CRED_ID_DH}"
-    TEST_LEVEL                = 'RunLocalTests'
-    PACKAGE_NAME              = '00D2w000001eI5iEAE'
-    SF_INSTANCE_URL           = "${env.SFDC_HOST_DH}"
-    SF_USERNAME               = "${env.HUB_ORG_DH}"
-    PACKAGE_VERSION           = ''
-    server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
-    key_file_path             = "${env.WORKSPACE_TMP}\\secretFiles\\${env.JWT_CRED_ID_DH}"
+    withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+        stage('Deploye Code') {
+            if (isUnix()) {
+                rc = sh returnStatus: true, script: "${toolbelt} force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+            }else{
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+            }
+            if (rc != 0) { error 'hub org authorization failed' }
 
-  }
-
-  stages{                                                                               
-    stage('Checkout'){
-          steps{
-            checkout scm
-            echo 'checkout scm'
-          }
+			println rc
+			
+			// need to pull out assigned username
+			if (isUnix()) {
+				rmsg = sh returnStdout: true, script: "${toolbelt} force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
+			}else{
+			   rmsg = bat returnStdout: true, script: "\"${toolbelt}\" force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
+			}
+			  
+            printf rmsg
+            println('Hello from a Job DSL script!')
+            println(rmsg)
+        }
     }
-
-    stage('Authenticate with Salesforce'){
-          
-      steps{
-        withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
-          //bat "powershell Copy-Item ${server_key_file} -Destination src\\main\\resources"
-          //bat "force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${serverkey_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
-          //bat "dir ${key_file_path}"
-          bat "ping google.com -t"
-          //echo "${key_file_path}"
-      }
-        
-  
-      }
-    }
-  }
 }

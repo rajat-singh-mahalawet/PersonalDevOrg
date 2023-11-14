@@ -30,7 +30,7 @@ pipeline{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'server_key_file')]) {
           //bat "powershell Copy-Item ${server_key_file} -Destination src\\main\\resources"
           //bat script: "force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${server_key_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
-          echo "{env.WORKSPACE_TMP}\${SERVER_KEY_CREDENTALS_ID}"
+          echo "${env.WORKSPACE_TMP}\\${SERVER_KEY_CREDENTALS_ID}"
       }
         
   

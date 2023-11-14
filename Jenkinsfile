@@ -16,6 +16,7 @@ pipeline{
     server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
     key_file_path             = "${env.WORKSPACE_TMP}\\secretFiles\\${env.JWT_CRED_ID_DH}"
     toolbelt                  = tool 'toolbelt'
+    hardpath                  = "C:\\Users\\Owner\\JWT\\server.key"
 
   }
 
@@ -33,7 +34,7 @@ pipeline{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
           //bat "powershell Copy-Item ${server_key_file} -Destination src\\main\\resources"
           //bat "cd \"${toolbelt}\"
-          bat "cd \"${toolbelt}\" sf force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"C:\Users\Owner\JWT\server.key\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
+          bat "cd \"${toolbelt}\" sf force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${hardpath} --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
           //bat "dir ${key_file_path}"
           //bat "ping google.com -t"
           //echo "${key_file_path}"

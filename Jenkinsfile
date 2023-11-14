@@ -33,10 +33,20 @@ pipeline{
       steps{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
 
-          //bat script: "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${serverkey_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
+          bat script: "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${serverkey_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
           //echo "${key_file_path}"
       }
         
+  
+      }
+    }
+
+    stage('Validate Deployment'){
+          
+      steps{
+
+          bat script: "\"${toolbelt}\" project deploy start --dry-run --target-org ${SF_USERNAME}"
+          //echo "${key_file_path}"        
   
       }
     }

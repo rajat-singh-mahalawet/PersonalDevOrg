@@ -8,6 +8,7 @@
 public with sharing class forJenkinsDeployment {
     public forJenkinsDeployment() {
         System.debug('added')
+        System.debug('error')
 
     }
 }

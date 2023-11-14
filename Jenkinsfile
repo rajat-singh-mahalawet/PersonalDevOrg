@@ -14,7 +14,7 @@ pipeline{
     SF_USERNAME               = "${env.HUB_ORG_DH}"
     PACKAGE_VERSION           = ''
     server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
-    key_file_path             = "${env.WORKSPACE_TMP}\\secretFiles\\${env.JWT_CRED_ID_DH}\\server.crt"
+    key_file_path             = "${env.WORKSPACE_TMP}\\secretFiles\\${env.JWT_CRED_ID_DH}"
 
   }
 

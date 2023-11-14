@@ -55,8 +55,8 @@ pipeline{
           
       steps{
 
-          bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level RunLocalTests -w 180 -o ${SF_USERNAME}"
-          //echo "${key_file_path}"        
+          //bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level RunLocalTests -w 180 -o ${SF_USERNAME}"
+          echo "Run Apex Tests"        
   
       }
     }

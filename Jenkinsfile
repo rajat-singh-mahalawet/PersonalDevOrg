@@ -32,7 +32,8 @@ pipeline{
       steps{
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
           //bat "powershell Copy-Item ${server_key_file} -Destination src\\main\\resources"
-          bat "\"${toolbelt}\" sf force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${serverkey_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
+          bat "cd ${toolbelt}"
+          bat "sf force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${serverkey_file}\" --setdefaultdevhubusername --instanceurl ${SF_INSTANCE_URL}"
           //bat "dir ${key_file_path}"
           //bat "ping google.com -t"
           //echo "${key_file_path}"

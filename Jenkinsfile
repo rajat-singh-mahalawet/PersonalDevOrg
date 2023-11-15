@@ -90,6 +90,10 @@ pipeline{
     }
 
     stage('Run Apex Tests'){
+
+      when{
+          expression { return params.SFDX_TEST_LEVEL != 'NoTestRun' }
+      }
           
       steps{
 

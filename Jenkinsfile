@@ -114,4 +114,11 @@ pipeline{
       }
     }
   }
+
+  post{
+    always{
+      echo 'Always logout of SF Org'
+      bat script: "\"${toolbelt}\" org logout --all --no-prompt"
+    }
+  }
 }

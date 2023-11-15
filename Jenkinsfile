@@ -67,8 +67,12 @@ pipeline{
           
       steps{
 
-          bat script: "\"${toolbelt}\" project deploy start --dry-run --target-org ${SF_USERNAME}"
-          //echo "${key_file_path}"        
+        when{
+          ${param.SFDX_CHECK_ONLY} true
+        }
+
+        echo "Validating Deployment" 
+        bat script: "\"${toolbelt}\" project deploy start --dry-run --target-org ${SF_USERNAME}"  
   
       }
     }
@@ -87,7 +91,7 @@ pipeline{
     stage('Deploy'){
           
       steps{
-
+          echo "Begin Deployment" 
           bat script: "\"${toolbelt}\" project deploy start -d ${env.WORKSPACE} -o ${SF_USERNAME}"
           echo "Deployed"        
   

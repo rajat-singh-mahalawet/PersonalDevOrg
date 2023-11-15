@@ -58,7 +58,7 @@ pipeline{
           
       steps{
 
-          bat script: "\"${toolbelt}\" sf org logout --all --no-prompt"
+          bat script: "\"${toolbelt}\" org logout --all --no-prompt"
   
       }
     }

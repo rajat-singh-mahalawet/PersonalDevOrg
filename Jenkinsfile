@@ -68,7 +68,7 @@ pipeline{
       steps{
 
         when{
-          ${param.SFDX_CHECK_ONLY} true
+          ${params.SFDX_CHECK_ONLY} true
         }
 
         echo "Validating Deployment" 

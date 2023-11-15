@@ -60,7 +60,7 @@ pipeline{
       steps{
         //withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
 
-          bat script: "\"${toolbelt}\" force:auth:jwt:grant --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${server_key_file}\" --set-default --instanceurl ${SF_INSTANCE_URL}"
+          bat script: "\"${toolbelt}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${server_key_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"
           //echo "${key_file_path}"
       //}
         

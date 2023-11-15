@@ -54,6 +54,15 @@ pipeline{
           }
     }
 
+    stage('logout SF Orgs'){
+          
+      steps{
+
+          bat script: "\"${toolbelt}\" sf org logout --all --no-prompt"
+  
+      }
+    }
+
     stage('Authenticate with Salesforce'){
           
       steps{

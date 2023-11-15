@@ -60,5 +60,15 @@ pipeline{
   
       }
     }
+
+    stage('Deploy'){
+          
+      steps{
+
+          bat script: "\"${toolbelt}\" project deploy start -d ${env.WORKSPACE} -o ${SF_USERNAME}"
+          echo "Deployed"        
+  
+      }
+    }
   }
 }

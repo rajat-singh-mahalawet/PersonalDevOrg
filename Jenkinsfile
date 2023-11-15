@@ -37,7 +37,6 @@ pipeline{
   environment{
     SF_CONSUMER_KEY           = "${env.CONNECTED_APP_CONSUMER_KEY_DH}"
     SERVER_KEY_CREDENTALS_ID  = "${env.JWT_CRED_ID_DH}"
-    TEST_LEVEL                = 'RunLocalTests'
     PACKAGE_NAME              = '00D2w000001eI5iEAE'
     SF_INSTANCE_URL           = "${env.SFDC_HOST_DH}"
     SF_USERNAME               = "${env.HUB_ORG_DH}"
@@ -58,12 +57,8 @@ pipeline{
     stage('Authenticate with Salesforce'){
           
       steps{
-        //withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
 
-          bat script: "\"${toolbelt}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${server_key_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"
-          //echo "${key_file_path}"
-      //}
-        
+          bat script: "\"${toolbelt}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${server_key_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
   
       }
     }
@@ -82,8 +77,9 @@ pipeline{
           
       steps{
 
-          //bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level RunLocalTests -w 180 -o ${SF_USERNAME}"
-          echo "Run Apex Tests"        
+        echo "Run Apex Tests: ${params.SFDX_TEST_LEVEL}" 
+
+        bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
   
       }
     }

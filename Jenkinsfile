@@ -92,7 +92,7 @@ pipeline{
 
         echo "Run Apex Tests: ${params.SFDX_TEST_LEVEL}" 
 
-        bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
+        bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 --target-org ${SF_USERNAME}"       
   
       }
     }

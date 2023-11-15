@@ -17,7 +17,7 @@ pipeline{
           description: 'If true, perform delta deployment, otherwise perform a full deployment')
       booleanParam(
           name: 'SFDX_CHECK_ONLY',
-          defaultValue: false,
+          defaultValue: true,
           description: 'If true, will validate deployment, but not save to the org')
       choice(
           name: 'SFDX_TEST_LEVEL',
@@ -108,7 +108,7 @@ pipeline{
           
       steps{
           echo "Begin Deployment" 
-          bat script: "\"${toolbelt}\" project deploy start -d ${env.WORKSPACE} -o ${SF_USERNAME}"
+          bat script: "\"${toolbelt}\" project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
           echo "Deployed"        
   
       }

@@ -64,12 +64,12 @@ pipeline{
     }
 
     stage('Validate Deployment - Dry Run'){
+
+      when{
+          expression { return params.SFDX_CHECK_ONLY }
+      }
           
       steps{
-
-        when{
-          expression { return params.SFDX_CHECK_ONLY }
-        }
 
         echo "Validating Deployment" 
         bat script: "\"${toolbelt}\" project deploy start --dry-run --target-org ${SF_USERNAME}"  

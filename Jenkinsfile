@@ -126,5 +126,12 @@ pipeline{
 
       echo "Previous commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
     }
+
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
+    }
   }
 }

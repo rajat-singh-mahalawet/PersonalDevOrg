@@ -124,7 +124,7 @@ pipeline{
       echo 'Always logout SF Org.'
       bat script: "\"${toolbelt}\" org logout --all --no-prompt"
 
-      echo "${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
+      echo "Previous commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
     }
   }
 }

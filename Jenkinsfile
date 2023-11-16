@@ -105,6 +105,10 @@ pipeline{
     }
 
     stage('Deploy'){
+
+      when{
+          expression { return params.SFDX_CHECK_ONLY == false }
+      }
           
       steps{
           echo "Begin Deployment" 

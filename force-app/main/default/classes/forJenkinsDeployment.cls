@@ -8,7 +8,7 @@
 public with sharing class forJenkinsDeployment {
     public forJenkinsDeployment() {
         System.debug('added');
-        System.debug('errorrrr-validate only');
+        System.debug('errorrrr-validate');
 
     }
 }

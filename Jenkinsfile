@@ -117,7 +117,7 @@ pipeline{
 
   post{
     always{
-      echo 'Logout always of SF Org.'
+      echo 'Always logout of SF Org.'
       bat script: "\"${toolbelt}\" org logout --all --no-prompt"
     }
   }

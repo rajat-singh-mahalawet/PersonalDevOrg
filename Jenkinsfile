@@ -118,6 +118,8 @@ pipeline{
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 
+      LIST_FILES = bat script: "git diff ${COMMIT_DELTA} ${COMMIT_CURRENT} --name-only"
+
     }
     // success {
     //     setBuildStatus("Build succeeded", "SUCCESS");

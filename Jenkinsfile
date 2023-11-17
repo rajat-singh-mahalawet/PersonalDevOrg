@@ -113,7 +113,7 @@ pipeline{
   post{
     always{
       echo 'Always logout SF Org.'
-      bat script: "\"${toolbelt}\" org logout --all --no-prompt"
+      bat script: "\"${toolbelt}\" org logout --target-org ${SF_USERNAME} --no-prompt"
 
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"

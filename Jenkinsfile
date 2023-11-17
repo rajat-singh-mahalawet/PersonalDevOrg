@@ -119,7 +119,7 @@ pipeline{
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 
       script{
-        res = bat (returnStdoutTrim : true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only")
+        res = bat (returnStdout : true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only").trim()
 
         echo "output : ${res}"
       }

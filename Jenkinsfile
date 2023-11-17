@@ -54,15 +54,6 @@ pipeline{
           }
     }
 
-    stage('logout SF Orgs'){
-          
-      steps{
-
-          bat script: "\"${toolbelt}\" org logout --all --no-prompt"
-  
-      }
-    }
-
     stage('Authenticate with Salesforce'){
           
       steps{
@@ -71,6 +62,15 @@ pipeline{
 
           bat script: "\"${toolbelt}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${serverkey_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
         }
+  
+      }
+    }
+
+    stage('logout SF Orgs'){
+          
+      steps{
+
+          bat script: "\"${toolbelt}\" org logout --all --no-prompt"
   
       }
     }
@@ -121,7 +121,7 @@ pipeline{
 
   post{
     always{
-      echo 'Always logout SF Org."
+      echo 'Always logout SF Org.'
       bat script: "\"${toolbelt}\" org logout --all --no-prompt"
 
       echo "Previous commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"

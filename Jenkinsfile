@@ -1,3 +1,14 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/rajat-singh-mahalawet/PersonalDevOrg"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
+
 pipeline{
     agent any
 
@@ -126,9 +137,12 @@ pipeline{
 
       echo "Previous commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 
-      success{
-        
-      }
+    }
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
     }
   }
 }

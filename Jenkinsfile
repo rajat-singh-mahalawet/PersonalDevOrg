@@ -66,15 +66,6 @@ pipeline{
       }
     }
 
-    stage('logout SF Orgs'){
-          
-      steps{
-
-          bat script: "\"${toolbelt}\" org logout --all --no-prompt"
-  
-      }
-    }
-
     stage('Validate Deployment - Dry Run'){
 
       when{

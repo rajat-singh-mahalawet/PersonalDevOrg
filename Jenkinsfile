@@ -118,9 +118,11 @@ pipeline{
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 
-      res = bat (returnStdout: true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only")
+      script{
+        res = bat (returnStdout: true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only")
 
-      echo "output : ${res}"
+        echo "output : ${res}"
+      }
 
     }
     // success {

@@ -14,7 +14,7 @@ pipeline{
       choice(
           name: 'DEPLOY',
           choices: ['DELTA-DEPLOY','FULL-DEPLOY','NO-DEPLOY'],
-          description: 'Chooseperform delta or full or No deployment')
+          description: 'Choose perform delta or full or No deployment')
       booleanParam(
           name: 'SFDX_CHECK_ONLY',
           defaultValue: true,
@@ -44,7 +44,6 @@ pipeline{
     server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
     toolbelt_SF               = tool 'toolbelt-sf'
     toolbelt_SFDX             = tool 'toolbelt-sfdx'
-    params.SFDX_TEST_LEVEL    = 'RunLocalTests'
 
   }
 
@@ -117,7 +116,7 @@ pipeline{
       }
     }
 
-    stage('Deploy'){
+    stage(' Full Deploy'){
 
       when{
           expression { return params.DEPLOY == 'FULL-DEPLOY' }
@@ -126,6 +125,20 @@ pipeline{
       steps{
           echo "Begin Deployment" 
           bat script: "\"${toolbelt_SF}\" project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
+          echo "Deployed"        
+  
+      }
+    }
+
+    stage(' Delta Deploy'){
+
+      when{
+          expression { return params.DEPLOY == 'DELTA-DEPLOY' }
+      }
+          
+      steps{
+          echo "Begin Deployment" 
+          bat script: "\"${toolbelt_SF}\" project deploy start -x package/package.xml  --target-org ${SF_USERNAME} --post-destructive-changes destructiveChanges/destructiveChanges.xml"
           echo "Deployed"        
   
       }

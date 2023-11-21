@@ -21,7 +21,7 @@ pipeline{
           description: 'If true, will validate deployment, but not save to the org')
       choice(
           name: 'SFDX_TEST_LEVEL',
-          choices: ['NoTestRun','RunSpecifiedTests','RunLocalTests','RunAllTestsInOrg'],
+          choices: ['RunLocalTests','NoTestRun','RunSpecifiedTests','RunLocalTests','RunAllTestsInOrg'],
           description: 'Sets the Apex test level during deployment. The first value is the default.')
       string(
           name: 'DELTA_DEPLOY_PREV_COMMIT_REF',

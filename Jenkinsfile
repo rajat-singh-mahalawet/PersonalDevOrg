@@ -42,7 +42,8 @@ pipeline{
     SF_USERNAME               = "${env.HUB_ORG_DH}"
     PACKAGE_VERSION           = ''
     server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
-    toolbelt                  = tool 'toolbelt'
+    toolbelt_SF               = tool 'toolbelt-sf'
+    toolbelt_SFDX             = tool 'toolbelt-sfdx'
 
   }
 
@@ -56,7 +57,7 @@ pipeline{
 
     stage('Generate Diff'){
           steps{
-            bat script: "\"${toolbelt}\"sfdx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
+            bat script: "sfdx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
           }
     }
 
@@ -66,7 +67,7 @@ pipeline{
 
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
 
-          bat script: "\"${toolbelt}\"sf force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${serverkey_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
+          bat script: "\"${toolbelt_SF}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${serverkey_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
         }
   
       }
@@ -84,7 +85,7 @@ pipeline{
       steps{
 
         echo "Validating Deployment" 
-        bat script: "\"${toolbelt}\" project deploy start --dry-run --target-org ${SF_USERNAME}"  
+        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --target-org ${SF_USERNAME}"  
   
       }
     }
@@ -102,7 +103,7 @@ pipeline{
 
         echo "Run Apex Tests: ${params.SFDX_TEST_LEVEL}" 
 
-        bat script: "\"${toolbelt}\"sf project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
+        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
   
       }
     }
@@ -115,7 +116,7 @@ pipeline{
           
       steps{
           echo "Begin Deployment" 
-          bat script: "\"${toolbelt}\"sf project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
+          bat script: "\"${toolbelt_SF}\" project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
           echo "Deployed"        
   
       }

@@ -55,6 +55,14 @@ pipeline{
           }
     }
 
+    stage('Install sgd-git-delta plugin') {
+            steps {
+                script {
+                    bat 'echo y | sfdx plugins:install sfdx-git-delta'
+                }
+            }
+        }
+
     stage('Generate Diff'){
           steps{
             bat script: "\"${toolbelt_SFDX}\" sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o . --loglevel info"
@@ -126,7 +134,7 @@ pipeline{
   post{
     always{
       echo 'Always logout SF Org...'
-      bat script: "\"${toolbelt}\"sf org logout --target-org ${SF_USERNAME} --no-prompt"
+      bat script: "\"${toolbelt_SF}\" org logout --target-org ${SF_USERNAME} --no-prompt"
 
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"

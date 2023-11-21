@@ -54,6 +54,12 @@ pipeline{
           }
     }
 
+    stage('Generate Diff'){
+          steps{
+            bat script: "\"${toolbelt}\"dx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
+          }
+    }
+
     stage('Authenticate with Salesforce'){
           
       steps{

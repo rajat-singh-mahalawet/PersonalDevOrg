@@ -55,13 +55,13 @@ pipeline{
           }
     }
 
-    stage('Install sgd-git-delta plugin') {
-            steps {
-                script {
-                    bat script: "echo y | \"${toolbelt_SFDX}\" plugins:install sfdx-git-delta"
-                }
-            }
-        }
+    // stage('Install sgd-git-delta plugin') {
+    //         steps {
+    //             script {
+    //                 bat script: "echo y | \"${toolbelt_SFDX}\" plugins:install sfdx-git-delta"
+    //             }
+    //         }
+    //     }
 
     stage('Generate Diff'){
           steps{
@@ -93,7 +93,7 @@ pipeline{
       steps{
 
         echo "Validating Deployment" 
-        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --target-org ${SF_USERNAME}"  
+        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --target-org ${SF_USERNAME} -x package/package.xml"  
   
       }
     }

@@ -13,7 +13,7 @@ pipeline{
 
       choice(
           name: 'DEPLOY',
-          choices: ['DELTA-DEPLOY','FULL-DEPLOY','NO-DEPLOY']
+          choices: ['DELTA-DEPLOY','FULL-DEPLOY','NO-DEPLOY'],
           description: 'Chooseperform delta or full or No deployment')
       booleanParam(
           name: 'SFDX_CHECK_ONLY',

@@ -56,7 +56,7 @@ pipeline{
 
     stage('Generate Diff'){
           steps{
-            bat script: "\"${toolbelt}\"dx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
+            bat script: "\"${toolbelt}\"sfdx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
           }
     }
 
@@ -66,7 +66,7 @@ pipeline{
 
         withCredentials([file(credentialsId: "${SERVER_KEY_CREDENTALS_ID}", variable: 'serverkey_file')]) {
 
-          bat script: "\"${toolbelt}\" force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${serverkey_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
+          bat script: "\"${toolbelt}\"sf force:auth:jwt:grant --client-id ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwt-key-file \"${serverkey_file}\" --set-default --instance-url ${SF_INSTANCE_URL}"        
         }
   
       }
@@ -102,7 +102,7 @@ pipeline{
 
         echo "Run Apex Tests: ${params.SFDX_TEST_LEVEL}" 
 
-        bat script: "\"${toolbelt}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
+        bat script: "\"${toolbelt}\"sf project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
   
       }
     }
@@ -115,7 +115,7 @@ pipeline{
           
       steps{
           echo "Begin Deployment" 
-          bat script: "\"${toolbelt}\" project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
+          bat script: "\"${toolbelt}\"sf project deploy start -d ${env.WORKSPACE} --target-org ${SF_USERNAME}"
           echo "Deployed"        
   
       }
@@ -125,7 +125,7 @@ pipeline{
   post{
     always{
       echo 'Always logout SF Org...'
-      bat script: "\"${toolbelt}\" org logout --target-org ${SF_USERNAME} --no-prompt"
+      bat script: "\"${toolbelt}\"sf org logout --target-org ${SF_USERNAME} --no-prompt"
 
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"

@@ -58,7 +58,7 @@ pipeline{
     stage('Install sgd-git-delta plugin') {
             steps {
                 script {
-                    bat script: "echo y | \"${toolbelt_SFDX}\" plugins:install sfdx-git-delta --no-prompt"
+                    bat script: "echo y | \"${toolbelt_SFDX}\" plugins:install sfdx-git-delta"
                 }
             }
         }

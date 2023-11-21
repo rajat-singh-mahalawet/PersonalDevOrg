@@ -44,6 +44,7 @@ pipeline{
     server_key_file           = credentials("${env.JWT_CRED_ID_DH}")
     toolbelt_SF               = tool 'toolbelt-sf'
     toolbelt_SFDX             = tool 'toolbelt-sfdx'
+    params.SFDX_TEST_LEVEL    = 'RunLocalTests'
 
   }
 
@@ -111,7 +112,7 @@ pipeline{
 
         echo "Run Apex Tests: ${params.SFDX_TEST_LEVEL}" 
 
-        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME}"       
+        bat script: "\"${toolbelt_SF}\" project deploy start --dry-run --test-level ${params.SFDX_TEST_LEVEL} -w 180 -o ${SF_USERNAME} -x package/package.xml"       
   
       }
     }
@@ -119,7 +120,7 @@ pipeline{
     stage('Deploy'){
 
       when{
-          expression { return params.SFDX_CHECK_ONLY == false }
+          expression { return params.DEPLOY == 'FULL-DEPLOY' }
       }
           
       steps{

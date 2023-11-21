@@ -57,7 +57,7 @@ pipeline{
 
     stage('Generate Diff'){
           steps{
-            bat script: "sfdx sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
+            bat script: "\"${toolbelt_SFDX}\" sgd:source:delta -f ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} -o ."
           }
     }
 

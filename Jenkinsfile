@@ -11,10 +11,10 @@ pipeline{
 
     parameters {
 
-      booleanParam(
-          name: 'DELTA_DEPLOY',
-          defaultValue: true,
-          description: 'If true, perform delta deployment, otherwise perform a full deployment')
+      choice(
+          name: 'DEPLOY',
+          choices: ['DELTA-DEPLOY','FULL-DEPLOY','NO-DEPLOY']
+          description: 'Chooseperform delta or full or No deployment')
       booleanParam(
           name: 'SFDX_CHECK_ONLY',
           defaultValue: true,
@@ -69,7 +69,10 @@ pipeline{
     stage('Validate Deployment - Dry Run'){
 
       when{
+        allOf{
           expression { return params.SFDX_CHECK_ONLY }
+          expression { return params.SFDX_TEST_LEVEL == 'NoTestRun'}
+        }
       }
           
       steps{
@@ -83,7 +86,10 @@ pipeline{
     stage('Run Apex Tests'){
 
       when{
+        allOf{
+          expression { return params.SFDX_CHECK_ONLY }
           expression { return params.SFDX_TEST_LEVEL != 'NoTestRun' }
+        }
       }
           
       steps{
@@ -118,11 +124,11 @@ pipeline{
       echo "Current build commit ${env.GIT_COMMIT}"
       echo "Previous successful commit ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
 
-      script{
-        res = bat (returnStdout : true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only > delta.txt").trim()
+      // script{
+      //   res = bat (returnStdout : true, script: "git diff ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${env.GIT_COMMIT} --name-only > delta.txt").trim()
 
-        echo "output : ${res}"
-      }
+      //   echo "output : ${res}"
+      // }
 
     }
     // success {

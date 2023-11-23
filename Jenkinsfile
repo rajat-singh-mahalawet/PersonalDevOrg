@@ -87,6 +87,7 @@ pipeline{
         allOf{
           expression { return params.SFDX_CHECK_ONLY }
           expression { return params.SFDX_TEST_LEVEL == 'NoTestRun'}
+          expression { return params.DEPLOY != 'NO-DEPLOY'}
         }
       }
           
@@ -104,6 +105,7 @@ pipeline{
         allOf{
           expression { return params.SFDX_CHECK_ONLY }
           expression { return params.SFDX_TEST_LEVEL != 'NoTestRun' }
+          expression { return params.DEPLOY != 'NO-DEPLOY'}
         }
       }
           

@@ -8,6 +8,6 @@
 public with sharing class forJenkinsDeployment {
     public forJenkinsDeployment() {
             System.debug('added');
-            System.debug('erro-validate-test22');
+            System.debug('erro-validate-test2');
     }
 }
